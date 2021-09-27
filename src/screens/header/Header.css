@@ -10,6 +10,7 @@
     width: 35px;
     animation: rotation 8s infinite linear;
   }
+
   
   @keyframes rotation {
     from {

@@ -34,7 +34,7 @@ export default function LoginForm(props){
         }
         const accesstoken = rawResponse.headers.get("access-token");
     
-        props.history.replace({
+        props.history.push({
             pathname: '/',
             state: {
                 loginStatus : rawResponse.ok,

@@ -13,7 +13,6 @@ export default function Header(props) {
 
     }
     
-
     const loginHandler = event => {
         loginContext.dispatch({ type: "DISPLAY_LOGIN_MODAL", payload: true });
     }
@@ -27,14 +26,13 @@ export default function Header(props) {
                 <Grid item xs={9}>
                 </Grid>
                 <Grid item xs={1} style={{ display: "flex", justifyContent: "center" }}>
-                    <Button
-                        variant='contained' color="primary" onClick={bookShowHandler} >Book Show</Button>
+                    {props.location.state===undefined || props.location.state.isMovieSelected ? <Button variant='contained' color="primary" onClick={bookShowHandler} >Book Show</Button>:""}
                 </Grid>
                 <Grid item xs={1} style={{ display: "flex", justifyContent: "center" }}>
                     {console.log(props.location.state)}
                     {props.location.state===undefined || props.location.state.loginStatus ?
-                        <Button id="login-button" variant='contained' onClick={loginHandler}>Logout</Button> :
-                        <Button id="logout-button" variant='contained' onClick={loginHandler}>Login</Button>}
+                        <Button  id="login-button" variant='contained' onClick={loginHandler}>Logout</Button> :
+                        <Button  id="logout-button" variant='contained' onClick={loginHandler}>Login</Button>}
                 </Grid>
             </Grid> 
 
