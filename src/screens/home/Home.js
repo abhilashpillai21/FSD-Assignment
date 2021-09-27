@@ -16,6 +16,7 @@ export default function Home(props){
     ,[])
 
     return(
+        
         <Fragment>
             <Header {...props}/>
         </Fragment>
