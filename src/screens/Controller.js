@@ -4,27 +4,33 @@ import Home from "../screens/home/Home";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 //import BookShow from "../screens/bookshow/BookShow";
 //import Confirmation from "../screens/confirmation/Confirmation";
-import { ModalDisplayContext,  LoginStatusReducer} from "../common/reducers";
+import { GlobalStateContext,  GlobalStateReducer} from '../../src/common/reducers';
 
 const Controller = () => {
     
     const baseUrl = "/api/v1/";
 
-    const initialState = false;
+    const initialState = {
+        accesstoken: null,
+        isMovieSelected:false,
+        loginStatus:false,
+        unreleasedMovies: [],
+        shouldDisplayModal: false
+    };
 
-    const [state, dispatch] = useReducer(LoginStatusReducer, initialState);
+    const [state, dispatch] = useReducer(GlobalStateReducer, initialState);
 
     return (
         
             <Router>
                 <div className="main-container">
-                 <ModalDisplayContext.Provider value={{ state: state, dispatch: dispatch }}>
+                 <GlobalStateContext.Provider value={{ state: state, dispatch: dispatch }}>
                     <Route
                         exact
                         path="/"
                         render={(props) => <Home {...props} baseUrl={baseUrl} />}
                     />
-                    </ModalDisplayContext.Provider>
+                    </GlobalStateContext.Provider>
                     {/* 
                     <Route
                         exact

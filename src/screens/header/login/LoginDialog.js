@@ -1,6 +1,6 @@
 import Modal from 'react-modal';
 import React, { useState, useContext, useEffect } from 'react';
-import { ModalDisplayContext } from '../../../common/reducers';
+import { GlobalStateContext } from '../../../common/reducers';
 import "./LoginDialog.css";
 import { Box } from '@mui/system';
 import { Tabs, Tab, Typography } from '@material-ui/core';
@@ -47,7 +47,7 @@ TabPanel.propTypes = {
 export default function LoginDialog(props) {
 
     const [value, setValue] = React.useState(0);
-    const loginContext = useContext(ModalDisplayContext);
+    const loginContext = useContext(GlobalStateContext);
 
     const closeModalHandler = () => {
         loginContext.dispatch({type:"DISPLAY_LOGIN_MODAL", payload: false});
@@ -57,10 +57,9 @@ export default function LoginDialog(props) {
         setValue(newValue);
     };
 
-    console.log("==>", props.tabValue);
     return (
         <div>
-            <Modal isOpen={loginContext.state.shouldDisplay} onRequestClose={closeModalHandler}
+            <Modal isOpen={loginContext.state.shouldDisplayModal} onRequestClose={closeModalHandler}
                 shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} ariaHideApp={false} className="login-dialog">
 
                 <Box>

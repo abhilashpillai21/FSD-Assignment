@@ -4,15 +4,15 @@ import { Box } from '@mui/system';
 import './Header.css';
 import Logo from '../../assets/logo.svg'
 import LoginDialog from './login/LoginDialog';
-import { ModalDisplayContext } from '../../common/reducers';
+import { GlobalStateContext } from '../../common/reducers';
 
 export default function Header(props) {
 
-    const loginContext = useContext(ModalDisplayContext);
+    const loginContext = useContext(GlobalStateContext);
     const bookShowHandler = event => {
 
     }
-    
+
     const loginHandler = event => {
         loginContext.dispatch({ type: "DISPLAY_LOGIN_MODAL", payload: true });
     }
@@ -26,15 +26,15 @@ export default function Header(props) {
                 <Grid item xs={9}>
                 </Grid>
                 <Grid item xs={1} style={{ display: "flex", justifyContent: "center" }}>
-                    {props.location.state===undefined || props.location.state.isMovieSelected ? <Button variant='contained' color="primary" onClick={bookShowHandler} >Book Show</Button>:""}
+                    {loginContext.state.isMovieSelected ? <Button variant='contained' color="primary" onClick={bookShowHandler} >Book Show</Button> : ""}
                 </Grid>
                 <Grid item xs={1} style={{ display: "flex", justifyContent: "center" }}>
-                    {console.log(props.location.state)}
-                    {props.location.state===undefined || props.location.state.loginStatus ?
-                        <Button  id="login-button" variant='contained' onClick={loginHandler}>Logout</Button> :
-                        <Button  id="logout-button" variant='contained' onClick={loginHandler}>Login</Button>}
+                    {loginContext.state.loginStatus ?
+                        <Button id="login-button" variant='contained'  onClick={loginHandler}>Logout</Button>:
+                        <Button id="logout-button" variant='contained' onClick={loginHandler}>Login</Button> }
+                        
                 </Grid>
-            </Grid> 
+            </Grid>
 
             <LoginDialog {...props} />
 

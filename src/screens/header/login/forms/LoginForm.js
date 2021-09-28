@@ -1,13 +1,11 @@
-
-
 import Grid from "@material-ui/core/Grid";
 import React, { useEffect, useContext, useState } from 'react';
 import { Button, Input, InputLabel, FormHelperText, FormControl } from '@material-ui/core';
-import { ModalDisplayContext } from "../../../../common/reducers";
+import { GlobalStateContext } from "../../../../common/reducers";
 
 export default function LoginForm(props){
 
-    const loginContext = useContext(ModalDisplayContext);
+    const loginContext = useContext(GlobalStateContext);
     const[loginError, setLoginError] = useState(false);
     const[userCredentials, setUserCredentails] = useState({
         email:"",
@@ -34,25 +32,21 @@ export default function LoginForm(props){
         }
         const accesstoken = rawResponse.headers.get("access-token");
     
-        props.history.push({
-            pathname: '/',
-            state: {
-                loginStatus : rawResponse.ok,
-                "access-token": accesstoken
-            }
-        })
+        loginContext.dispatch({type:"LOGIN_STATUS", payload: rawResponse.ok});
+        loginContext.dispatch({type:"ACCESS_TOKEN", payload: accesstoken});
+
+        // props.history.push('/');
     }
 
     useEffect(()=>{
-        console.log(props.location.state);
-        if(props.location.state.loginStatus){
+        if(loginContext.state.loginStatus){
             loginContext.dispatch({type:"DISPLAY_LOGIN_MODAL", payload: false});
         }
         else{
             loginContext.dispatch({type:"DISPLAY_LOGIN_MODAL", payload: true});
         }
 
-    },[props.location.state.loginStatus]);
+    },[loginContext.state.loginStatus]);
 
     const handleInputChange=(event)=>{
         setUserCredentails(
