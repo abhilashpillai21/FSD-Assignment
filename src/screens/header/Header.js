@@ -7,10 +7,17 @@ import LoginDialog from './login/LoginDialog';
 import { GlobalStateContext } from '../../common/reducers';
 
 export default function Header(props) {
-
+    
     const loginContext = useContext(GlobalStateContext);
     const bookShowHandler = event => {
 
+        if(loginContext.state.accesstoken){
+           console.log("Entered");
+           props.history.push(`/bookshow/:${loginContext.state.MovieSelected}`);
+        }
+        else{
+            loginContext.dispatch({ type: "DISPLAY_LOGIN_MODAL", payload: true });
+        }
     }
 
     const loginHandler = event => {

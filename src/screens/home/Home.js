@@ -3,12 +3,21 @@ import Header from '../header/Header';
 import ComingSoon from './comingsoon/ComingSoon';
 import { GlobalStateReducer } from '../../../src/common/reducers';
 import { GlobalStateContext } from '../../../src/common/reducers';
+import './Home.css'
+import ReleasedMovies from './releasedmovies/releasedmovies';
 
 export default function Home(props) {
 
     const loginContext = useContext(GlobalStateContext);
     
     useEffect(() => {
+
+        fetch(props.baseUrl + 'movies?status=RELEASED').
+        then(rawResults => rawResults.json()).
+        then(results=>{
+            loginContext.dispatch({type:"RELEASED_MOVIES", payload: results.movies});
+        }).
+        catch(error => console.log(error));
         
         fetch(props.baseUrl + 'movies?status=PUBLISHED').
             then(rawResults => rawResults.json()).
@@ -21,10 +30,18 @@ export default function Home(props) {
 
     return (
        
-        //unreleasedMoviesList? 
        <Fragment>
             <Header {...props} />
             <ComingSoon {...props}/>
-        </Fragment>//:""
+            <div className="container">
+                <div className="column-1 box">
+                <ReleasedMovies {...props} />
+                </div>
+                <div className="column-2 box">
+                    <h2>Column 2</h2>
+                    <p>Placeholder for findmovies form</p>
+                </div>
+            </div>
+        </Fragment>
     );
 }

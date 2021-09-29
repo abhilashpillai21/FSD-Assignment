@@ -13,8 +13,10 @@ const Controller = () => {
     const initialState = {
         accesstoken: null,
         isMovieSelected:false,
+        MovieSelected:false,
         loginStatus:false,
         unreleasedMovies: [],
+        releasedMovies: [],
         shouldDisplayModal: false
     };
 

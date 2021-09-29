@@ -1,0 +1,26 @@
+.container{
+    display:flex;
+    width: 100%;
+    margin: 0px;
+    padding:0;
+    height:100%;
+
+}
+
+.column-1 {
+  flex-basis: 76%; 
+}
+
+.column-2 {
+    flex-basis: 24%; /* sets initial width to 70% */
+}
+
+.box {
+    margin: 16px;
+  /* background-color: rgb(245, 215, 160);
+  padding: 10px;
+  border-radius: 12px;
+  border: 2px solid rgb(116, 113, 113);
+  margin: 1rem;
+  box-shadow: 1px 1px 1px #000; */
+}

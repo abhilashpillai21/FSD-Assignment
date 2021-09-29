@@ -36,14 +36,6 @@ export default function RegisterForm(props) {
         
         let isDataInvalid = validateData();
         
-        // const rawResponse = await fetch(props.baseUrl+"signup", {
-        //     method: "POST",
-        //     headers: {
-        //         Accept: "application/json",
-        //         "Content-Type": "application/json;charset=UTF-8",
-        //     },
-        //     body: JSON.stringify(requestBody)
-        // });
         if(!isDataInvalid){
             console.log(isDataInvalid);
             fetch(props.baseUrl + "signup", {
