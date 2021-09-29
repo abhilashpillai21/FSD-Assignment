@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect, useContext } from 'react';
-import Header from '../header/Header';
+import Header from '../../common/header/Header';
 import ComingSoon from './comingsoon/ComingSoon';
 import { GlobalStateReducer } from '../../../src/common/reducers';
 import { GlobalStateContext } from '../../../src/common/reducers';
