@@ -15,31 +15,26 @@ const initialState = {
 export default function RegisterForm(props) {
     const [registrationStatus, setRegistrationStatus] = useState("");
     const [requestBody, setRequestBody] = useState(initialState);
-    const [isError, setIsError] = useState(false);
+    const [isBlank, setIsBlank] = useState(false);
+    const [isFieldError, setFieldError] = useState({
+        "mobile_number": false,
+        "password": false
+    });
 
+    function validateData(){
+        let flag = false;
+        if(isBlank)
+            flag=true;
+        Object.keys(isFieldError).forEach(errorFlag=>{
+            flag=isFieldError[errorFlag]?flag=true:flag;
+        })
+        const emailFlag = validateEmail(); 
+        return emailFlag && flag;
+    }
 
     const handleSubmit = () => {
         
-        let errorFlag = false;
-        Object.keys(requestBody).forEach(key => {
-            if (!requestBody[key]) {
-                errorFlag=true;
-                console.log("blank Values");
-            }
-            else if (key === "email_address") {
-                if (!validator.isEmail(requestBody[key])) {
-                    errorFlag=true;
-                    console.log("invalid email");
-                } 
-            }  
-            else if (key ===  "mobile_number")  {
-                const re = /^[0-9\b]+$/;
-                if(requestBody[key] === '' || re.test(requestBody[key])){
-                    console.log("invalid mobile no");
-                    errorFlag=true;
-                }
-            }
-        });
+        let isDataInvalid = validateData();
         
         // const rawResponse = await fetch(props.baseUrl+"signup", {
         //     method: "POST",
@@ -49,8 +44,8 @@ export default function RegisterForm(props) {
         //     },
         //     body: JSON.stringify(requestBody)
         // });
-        if(!errorFlag){
-            console.log(errorFlag, "++++++++");
+        if(!isDataInvalid){
+            console.log(isDataInvalid);
             fetch(props.baseUrl + "signup", {
                 method: "POST",
                 headers: {
@@ -69,7 +64,7 @@ export default function RegisterForm(props) {
             const message = "Check for valid data";
             setRegistrationStatus(message);
         }
-        setIsError(errorFlag);
+        
     }
 
     const handleInputChange = (event) => {
@@ -77,7 +72,8 @@ export default function RegisterForm(props) {
             ...requestBody,
             [event.target.name]: event.target.value
         })
-
+        
+        validateMobile(event);
     }
 
     return (
@@ -88,7 +84,7 @@ export default function RegisterForm(props) {
                     <FormControl>
                         <InputLabel htmlFor="first_name">First Name*</InputLabel>
                         <Input value={requestBody.first_name} required id="first_name" name="first_name" type="text" onChange={handleInputChange} />
-                        <FormHelperText error>{isError ? "required" : null}</FormHelperText>
+                        <FormHelperText error>{isBlank ? "required" : null}</FormHelperText>
                     </FormControl>
                 </Grid>
 
@@ -96,7 +92,7 @@ export default function RegisterForm(props) {
                     <FormControl>
                         <InputLabel htmlFor="last_name">Last Name*</InputLabel>
                         <Input value={requestBody.last_name} required id="last_name" name="last_name" type="text" onChange={handleInputChange} />
-                        <FormHelperText error>{isError ? "required" : null}</FormHelperText>
+                        <FormHelperText error>{isBlank ? "required" : null}</FormHelperText>
                     </FormControl>
                 </Grid>
 
@@ -104,7 +100,7 @@ export default function RegisterForm(props) {
                     <FormControl>
                         <InputLabel htmlFor="email_address">Email*</InputLabel>
                         <Input value={requestBody.email_address} required id="email_address" name="email_address" type="email" onChange={handleInputChange} />
-                        <FormHelperText error>{isError ? "required" : null
+                        <FormHelperText error>{isFieldError.email_address?"Invalid email address":""||isBlank ? "required" : null
                         }</FormHelperText>
                     </FormControl>
                 </Grid>
@@ -113,7 +109,7 @@ export default function RegisterForm(props) {
                     <FormControl>
                         <InputLabel htmlFor="password">Password*</InputLabel>
                         <Input required value={requestBody.password} id="password" name="password" type="password" onChange={handleInputChange} />
-                        <FormHelperText error>{isError ? "required" : null}</FormHelperText>
+                        <FormHelperText error>{isBlank ? "required" : null}</FormHelperText>
                     </FormControl>
                 </Grid>
 
@@ -121,7 +117,7 @@ export default function RegisterForm(props) {
                     <FormControl>
                         <InputLabel htmlFor="mobile_number">Contact No*</InputLabel>
                         <Input required value={requestBody.mobile_number} id="mobile_number" name="mobile_number" type="text" onChange={handleInputChange} />
-                        <FormHelperText error>{isError ? "required" : null}</FormHelperText>
+                        <FormHelperText error>{isFieldError.mobile_number?"Invalid mobile number":"" || isBlank ? "required" : null}</FormHelperText>
                     </FormControl>
                 </Grid>
 
@@ -134,4 +130,42 @@ export default function RegisterForm(props) {
             </Grid>
         </form>
     );
+
+
+
+    function validateMobile(event) {
+        if (event.target.name === "mobile_number") {
+            const re = /^[0-9\b]+$/;
+            if (!(event.target.value === '' || re.test(event.target.value))) {
+                setFieldError({
+                    ...isFieldError,
+                    mobile_number : true
+                });
+                setIsBlank(true);
+            }
+        }
+    }
+
+    function validateEmail(){
+        let flag = false;
+        Object.keys(requestBody).forEach(key => {
+            if (!requestBody[key]) {
+                setIsBlank(true);
+                flag = true;
+            }
+            else if (key === "email_address") {
+                if (!validator.isEmail(requestBody[key])) {
+                    setFieldError({
+                        ...isFieldError,
+                        email_address: true
+                    })
+
+                    flag = true;
+                } 
+            }  
+        });
+        return flag;
+    }
+
 }
+
