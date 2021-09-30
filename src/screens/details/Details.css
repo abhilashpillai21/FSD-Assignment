@@ -1,0 +1,41 @@
+.container{
+    display:flex;
+    width: 100%;
+    margin: 0px;
+    padding:0;
+    height:100%;
+
+}
+
+.left-container {
+  flex-basis: 20%; 
+
+}
+
+.middle-container {
+    flex-basis: 60%; /* sets initial width to 70% */
+
+}
+
+.right-container {
+    flex-basis: 20%; /* sets initial width to 70% */
+
+}
+
+.box {
+    margin: 16px;
+  /* background-color: rgb(245, 215, 160);
+  padding: 10px;
+  border-radius: 12px;
+  
+  margin: 1rem;
+  box-shadow: 1px 1px 1px #000; */
+}
+
+.link-text{
+    margin: 24px 8px 0px 0px;
+    height: 24px;
+}
+.link-text:hover{
+    cursor: pointer;
+}
