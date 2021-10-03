@@ -6,6 +6,8 @@ import { GlobalStateContext } from "../../../common/reducers";
 
 export default function Filter(props) {
 
+  const loginContext = useContext(GlobalStateContext);
+
   const [genres, setGenres] = useState([]);
   const [artists, setArtists] = useState([]);
 
@@ -35,10 +37,9 @@ export default function Filter(props) {
   const [reqGenre, setReqGenre] = useState('dispNone');
   const [reqArtist, setArtist] = useState('dispNone');
 
-  const loginContext = useContext(GlobalStateContext);
-
   useEffect(() => {
-    const movies = props.history.location.state.movies;
+    const movies = loginContext.state.releasedMovies;
+  
     const keys = Object.keys(movies);
     let tempArrayGenres = [];
     let tempArrayArtists = [];
@@ -59,10 +60,17 @@ export default function Filter(props) {
     setGenres([...genres, ...tempArrayGenres]);
     setArtists([...artists, ...tempArrayArtists]);
 
+    return ()=>{
+      setGenres([]);
+      setArtists([]);     
+    }
+
   }, []);
 
 
   const filterDataHandler = (event) => {
+    
+    {console.log("P R O P S ===> ",props)}
 
     let name = event.target.name;
     let value = event.target.value;
