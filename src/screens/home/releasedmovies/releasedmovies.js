@@ -1,9 +1,7 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
-
 import { GlobalStateContext } from "../../../common/reducers";
 import { ImageList, ImageListItem } from "@mui/material";
 import ImageListItemBar from '@mui/material/ImageListItemBar';
-
 import { Link } from "react-router-dom";
 
 export default function ReleasedMovies(props) {
@@ -24,7 +22,7 @@ export default function ReleasedMovies(props) {
             props.history.push({pathname:"/details", state: results});
         }).catch(error => console.log(error));
     }
-    {console.log("-->", loginContext.state.releasedMovies)}
+
     return (
         <Fragment>
             <ImageList variant='standard' cols={4} gap={10} >

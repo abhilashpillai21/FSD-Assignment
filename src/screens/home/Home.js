@@ -6,6 +6,7 @@ import { GlobalStateReducer } from '../../../src/common/reducers';
 import { GlobalStateContext } from '../../../src/common/reducers';
 import './Home.css'
 import ReleasedMovies from './releasedmovies/releasedmovies';
+import Filter from './filter/Filter';
 
 
 export default function Home(props) {
@@ -20,6 +21,7 @@ export default function Home(props) {
             then(results => {
                 loginContext.dispatch({ type: "RELEASED_MOVIES", payload: results.movies });
                 setResponse(results);
+                props.history.push({pathname:"/", state: results});
             }).
             catch(error => console.log(error));
         
@@ -40,11 +42,10 @@ export default function Home(props) {
             <ComingSoon {...props} />
             <div className="container">
                 <div className="column-1 box">
-                    <ReleasedMovies response ={response} {...props} />
+                    <ReleasedMovies {...props} />
                 </div>
                 <div className="column-2 box">
-                    <h2>Column 2</h2>
-                    <p>Placeholder for findmovies form</p>
+                    <Filter {...props}/>
                 </div>
             </div>
         </Fragment>

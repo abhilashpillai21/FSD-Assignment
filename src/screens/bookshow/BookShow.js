@@ -32,7 +32,7 @@ const BookShow = (props) => {
   const [showDates, setShowDates] = useState([]);
   const [originalShows, setOriginalShows] = useState([]);
   const [showId, setShowId] = useState("");
-
+  console.log("Book Show", props);
   useEffect(() => {
     let dataShows = null;
     
